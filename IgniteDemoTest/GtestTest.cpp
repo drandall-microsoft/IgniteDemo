@@ -1,119 +1,126 @@
 #include "pch.h"
+
 #include "Game.h"
 
-static int* ints(int a, int b, int c, int d, int e)
-{
-    int* r = new int[5];
-    r[0] = a;
-    r[1] = b;
-    r[2] = c;
-    r[3] = d;
-    r[4] = e;
-    return r;
+using namespace Game;
+
+TEST(RPS, Anything_AgainstItself_IsADraw) {
+    static_assert(draw == Play(Move::Rock, Move::Rock), "Rock vs Rock should be a draw");
+    static_assert(draw == Play(Move::Paper, Move::Paper), "Paper vs Paper should be a draw");
+    static_assert(draw == Play(Move::Scissors, Move::Scissors), "Scissors vs Scissors should be a draw");
+    static_assert(draw == Play(Move::Lizard, Move::Lizard), "Lizard vs Lizard should be a draw");
+    static_assert(draw == Play(Move::Spock, Move::Spock), "Spock vs Spock should be a draw");
+    
+    ASSERT_EQ(draw, Play(Move::Rock, Move::Rock));
+    ASSERT_EQ(draw, Play(Move::Paper, Move::Paper));
+    ASSERT_EQ(draw, Play(Move::Scissors, Move::Scissors));
+    ASSERT_EQ(draw, Play(Move::Lizard, Move::Lizard));
+    ASSERT_EQ(draw, Play(Move::Spock, Move::Spock));
 }
 
-TEST(YahtzeeTest, Chance_scores_sum_of_all_dice)
-{
-    int expected = 15;
-    int actual = Yahtzee().Chance(2, 3, 4, 5, 1);
-    ASSERT_TRUE(expected == actual);
-    ASSERT_TRUE(16 == Yahtzee().Chance(3, 3, 4, 5, 1));
+TEST(RPS, Rock_AgainstScissors_RockWins) {
+    static_assert(p1Win == Play(Move::Rock, Move::Scissors), "Rock should beat Scissors");
+    static_assert(p2Win == Play(Move::Scissors, Move::Rock), "Scissors should lose to Rock");
+
+    ASSERT_EQ(p1Win, Play(Move::Rock, Move::Scissors));
+    ASSERT_EQ(p2Win, Play(Move::Scissors, Move::Rock));
 }
 
-TEST(YahtzeeTest, Yahtzee_scores_50)
-{
-    int expected = 50;
-    int actual = Yahtzee().yahtzee(ints(4, 4, 4, 4, 4));
-    ASSERT_TRUE(expected == actual);
-    ASSERT_TRUE(50 == Yahtzee().yahtzee(ints(6, 6, 6, 6, 6)));
-    ASSERT_TRUE(0 == Yahtzee().yahtzee(ints(6, 6, 6, 6, 3)));
+TEST(RPS, Rock_AgainstLizard_RockWins) {
+    static_assert(p1Win == Play(Move::Rock, Move::Lizard), "Rock should beat Lizard");
+    static_assert(p2Win == Play(Move::Lizard, Move::Rock), "Lizard should lose to Rock");
+
+    ASSERT_EQ(p1Win, Play(Move::Rock, Move::Lizard));
+    ASSERT_EQ(p2Win, Play(Move::Lizard, Move::Rock));
 }
 
-TEST(YahtzeeTest, Test_1s)
-{
-    ASSERT_TRUE(Yahtzee().Ones(1, 2, 3, 4, 5) == 1);
-    ASSERT_TRUE(2 == Yahtzee().Ones(1, 2, 1, 4, 5));
-    ASSERT_TRUE(0 == Yahtzee().Ones(6, 2, 2, 4, 5));
-    ASSERT_TRUE(4 == Yahtzee().Ones(1, 2, 1, 1, 1));
+TEST(RPS, Rock_AgainstPaper_PaperWins) {
+    static_assert(p1Win == Play(Move::Paper, Move::Rock), "Paper should beat Rock");
+    static_assert(p2Win == Play(Move::Rock, Move::Paper), "Rock should lose to Paper");
+
+    ASSERT_EQ(p1Win, Play(Move::Paper, Move::Rock));
+    ASSERT_EQ(p2Win, Play(Move::Rock, Move::Paper));
 }
 
-TEST(YahtzeeTest, test_2s)
-{
-    ASSERT_TRUE(4 == Yahtzee().Twos(1, 2, 3, 2, 6));
-    ASSERT_TRUE(10 == Yahtzee().Twos(2, 2, 2, 2, 2));
+TEST(RPS, Rock_AgainstSpock_SpockWins) {
+    static_assert(p2Win == Play(Move::Rock, Move::Spock), "Rock should lose to Spock");
+    static_assert(p1Win == Play(Move::Spock, Move::Rock), "Spock should beat Rock");
+
+    ASSERT_EQ(p1Win, Play(Move::Spock, Move::Rock));
+    ASSERT_EQ(p2Win, Play(Move::Rock, Move::Spock));
 }
 
-TEST(YahtzeeTest, test_threes)
-{
-    ASSERT_TRUE(6 == Yahtzee().Threes(1, 2, 3, 2, 3));
-    ASSERT_TRUE(12 == Yahtzee().Threes(2, 3, 3, 3, 3));
+TEST(RPS, Paper_AgainstSpock_PaperWins) {
+    static_assert(p1Win == Play(Move::Paper, Move::Spock), "Paper should beat Spock");
+    static_assert(p2Win == Play(Move::Spock, Move::Paper), "Spock should lose to Paper");
+
+    ASSERT_EQ(p1Win, Play(Move::Paper, Move::Spock));
+    ASSERT_EQ(p2Win, Play(Move::Spock, Move::Paper));
 }
 
-TEST(YahtzeeTest, fours_test)
-{
-    ASSERT_TRUE(12 == (new Yahtzee(4, 4, 4, 5, 5))->Fours());
-    ASSERT_TRUE(8 == (new Yahtzee(4, 4, 5, 5, 5))->Fours());
-    ASSERT_TRUE(4 == (*new Yahtzee(4, 5, 5, 5, 5)).Fours());
+TEST(RPS, Paper_AgainstScissors_ScissorsWins) {
+    static_assert(p1Win == Play(Move::Scissors, Move::Paper), "Scissors should beat Paper");
+    static_assert(p2Win == Play(Move::Paper, Move::Scissors), "Paper should lose to Scissors");
+
+    ASSERT_EQ(p1Win, Play(Move::Scissors, Move::Paper));
+    ASSERT_EQ(p2Win, Play(Move::Paper, Move::Scissors));
 }
 
-TEST(YahtzeeTest, fives) {
-    ASSERT_TRUE(10 == (new Yahtzee(4, 4, 4, 5, 5))->Fives());
-    ASSERT_TRUE(15 == Yahtzee(4, 4, 5, 5, 5).Fives());
-    ASSERT_TRUE(20 == Yahtzee(4, 5, 5, 5, 5).Fives());
+TEST(RPS, Paper_AgainstLizard_LizardWins) {
+    static_assert(p1Win == Play(Move::Lizard, Move::Paper), "Lizard should beat Paper");
+    static_assert(p2Win == Play(Move::Paper, Move::Lizard), "Paper should lose to Lizard");
+
+    ASSERT_EQ(p1Win, Play(Move::Lizard, Move::Paper));
+    ASSERT_EQ(p2Win, Play(Move::Paper, Move::Lizard));
 }
 
-TEST(YahtzeeTest, sixes_test)
-{
-    ASSERT_TRUE(0 == Yahtzee(4, 4, 4, 5, 5).sixes());
-    ASSERT_TRUE(6 == Yahtzee(4, 4, 6, 5, 5).sixes());
-    ASSERT_TRUE(18 == Yahtzee(6, 5, 6, 6, 5).sixes());
+TEST(RPS, Scissors_AgainstLizard_ScissorsWins) {
+    static_assert(p1Win == Play(Move::Scissors, Move::Lizard), "Scissors should beat Lizard");
+    static_assert(p2Win == Play(Move::Lizard, Move::Scissors), "Lizard should lose to Scissors");
+
+    ASSERT_EQ(p1Win, Play(Move::Scissors, Move::Lizard));
+    ASSERT_EQ(p2Win, Play(Move::Lizard, Move::Scissors));
 }
 
-TEST(YahtzeeTest, one_pair)
-{
-    ASSERT_TRUE(6 == Yahtzee().ScorePair(3, 4, 3, 5, 6));
-    ASSERT_TRUE(10 == Yahtzee().ScorePair(5, 3, 3, 3, 5));
-    ASSERT_TRUE(12 == Yahtzee().ScorePair(5, 3, 6, 6, 5));
+TEST(RPS, Scissors_AgainstSpock_SpockWins) {
+    static_assert(p1Win == Play(Move::Spock, Move::Scissors), "Spock should beat Scissors");
+    static_assert(p2Win == Play(Move::Scissors, Move::Spock), "Scissors should lose to Spock");
+
+    ASSERT_EQ(p1Win, Play(Move::Spock, Move::Scissors));
+    ASSERT_EQ(p2Win, Play(Move::Scissors, Move::Spock));
 }
 
-TEST(YahtzeeTest, two_Pair)
-{
-    ASSERT_TRUE(16 == Yahtzee().TwoPair(3, 3, 5, 4, 5));
-    ASSERT_TRUE(0 == Yahtzee().TwoPair(3, 3, 5, 5, 5));
+TEST(RPS, Lizard_AgainstSpock_LizardWins) {
+    static_assert(p1Win == Play(Move::Lizard, Move::Spock), "Lizard should beat Spock");
+    static_assert(p2Win == Play(Move::Spock, Move::Lizard), "Spock should lose to Lizard");
+
+    ASSERT_EQ(p1Win, Play(Move::Lizard, Move::Spock));
+    ASSERT_EQ(p2Win, Play(Move::Spock, Move::Lizard));
 }
 
-TEST(YahtzeeTest, three_of_a_kind)
-{
-    ASSERT_TRUE(9 == Yahtzee().ThreeOfAKind(3, 3, 3, 4, 5));
-    ASSERT_TRUE(15 == Yahtzee().ThreeOfAKind(5, 3, 5, 4, 5));
-    ASSERT_TRUE(0 == Yahtzee::ThreeOfAKind(3, 3, 3, 3, 5));
-}
+TEST(RPS, Unset_AgainstAnything_IsInvalid) {
+    static_assert(invalid == Play(Move::Unset, Move::Rock), "Unset against Rock is Invalid");
+    static_assert(invalid == Play(Move::Unset, Move::Paper), "Unset against Paper is Invalid");
+    static_assert(invalid == Play(Move::Unset, Move::Scissors), "Unset against Scissors is Invalid");
+    static_assert(invalid == Play(Move::Unset, Move::Lizard), "Unset against Lizard is Invalid");
+    static_assert(invalid == Play(Move::Unset, Move::Spock), "Unset against Spock is Invalid");
 
-TEST(YahtzeeTest, four_of_a_knd)
-{
-    ASSERT_TRUE(12 == Yahtzee::FourOfAKind(3, 3, 3, 3, 5));
-    ASSERT_TRUE(20 == Yahtzee::FourOfAKind(5, 5, 5, 4, 5));
-    ASSERT_TRUE(0 == Yahtzee::FourOfAKind(3, 3, 3, 3, 3));
-}
+    static_assert(invalid == Play(Move::Rock, Move::Unset), "Rock against Unset is Invalid");
+    static_assert(invalid == Play(Move::Paper, Move::Unset), "Paper against Unset is Invalid");
+    static_assert(invalid == Play(Move::Scissors, Move::Unset), "Scissors against Unset is Invalid");
+    static_assert(invalid == Play(Move::Lizard, Move::Unset), "Lizard against Unset is Invalid");
+    static_assert(invalid == Play(Move::Spock, Move::Unset), "Spock against Unset is Invalid");
 
-TEST(YahtzeeTest, smallStraight)
-{
-    ASSERT_TRUE(15 == Yahtzee::SmallStraight(1, 2, 3, 4, 5));
-    ASSERT_TRUE(15 == Yahtzee::SmallStraight(2, 3, 4, 5, 1));
-    ASSERT_TRUE(0 == Yahtzee().SmallStraight(1, 2, 2, 4, 5));
-}
+    ASSERT_EQ(invalid, Play(Move::Unset, Move::Rock));
+    ASSERT_EQ(invalid, Play(Move::Unset, Move::Paper));
+    ASSERT_EQ(invalid, Play(Move::Unset, Move::Scissors));
+    ASSERT_EQ(invalid, Play(Move::Unset, Move::Lizard));
+    ASSERT_EQ(invalid, Play(Move::Unset, Move::Spock));
 
-TEST(YahtzeeTest, largeStraight)
-{
-    ASSERT_TRUE(20 == Yahtzee::LargeStraight(6, 2, 3, 4, 5));
-    ASSERT_TRUE(20 == Yahtzee().LargeStraight(2, 3, 4, 5, 6));
-    ASSERT_TRUE(0 == Yahtzee::LargeStraight(1, 2, 2, 4, 5));
-}
-
-
-TEST(YahtzeeTest, fullHouse)
-{
-    ASSERT_TRUE(18 == Yahtzee().FullHouse(6, 2, 2, 2, 6));
-    ASSERT_TRUE(0 == Yahtzee().FullHouse(2, 3, 4, 5, 6));
+    ASSERT_EQ(invalid, Play(Move::Rock, Move::Unset));
+    ASSERT_EQ(invalid, Play(Move::Paper, Move::Unset));
+    ASSERT_EQ(invalid, Play(Move::Scissors, Move::Unset));
+    ASSERT_EQ(invalid, Play(Move::Lizard, Move::Unset));
+    ASSERT_EQ(invalid, Play(Move::Spock, Move::Unset));
 }
 
