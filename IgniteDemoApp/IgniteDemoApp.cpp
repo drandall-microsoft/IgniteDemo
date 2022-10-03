@@ -1,12 +1,13 @@
 // IgniteDemoApp.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+
 #include "Game.h"
+#include "AI.h"
+#include "Controller.h"
 
 #include <iostream>
-#include <string_view>
-#include <optional>
-#include <random>
+
 
 constexpr std::string_view Prompt = "Select One\n"
                                     "\tRock(1)\n"
@@ -17,54 +18,37 @@ constexpr std::string_view Prompt = "Select One\n"
                                     "\tExit(0)\n"
                                     "\n";
 
-constexpr Game::Move GetPlayerMove() {
-    auto parseInput = [](char entry) -> std::optional<Game::Move> {
-        switch(entry) {
-        case '1': return Game::Move::Rock;
-        case '2': return Game::Move::Paper;
-        case '3': return Game::Move::Scissors;
-        case '4': return Game::Move::Lizard;
-        case '5': return Game::Move::Spock;
-        case '0': return Game::Move::Unset;
-        default: return {};
-        }
-    };
+ 
 
-    char input;
-    std::optional<Game::Move> result;
-
-    while(!result.has_value()) {
-        std::cin >> input;
-        result = parseInput(input);
-    }
-    return result.value();
-}
-
-Game::Move GetOpponentMove() {
-    static std::random_device rd;
-    static auto gen = std::default_random_engine(rd());
-    static auto rand = std::uniform_int_distribution{static_cast<int>(Game::Move::Unset) + 1, static_cast<int>(Game::Move::Spock)};
-    return static_cast<Game::Move>(rand(gen));
-}
 
 int main() {
     std::cout << Prompt;
 
-    auto selectedMove{Game::Move::Unset};
-    auto opponentMove{Game::Move::Spock};
+    auto playerMove{Game::Move::EndGame};
+    auto aiMove{Game::Move::Spock};
 
     while(true) {
-        selectedMove = GetPlayerMove();
-        if(selectedMove == Game::Move::Unset) {
+        playerMove = GetPlayerMove();
+        if(playerMove == Game::Move::EndGame) {
             return 0;
         }
-        opponentMove = GetOpponentMove();
+        aiMove = GetOpponentMove();
 
-        std::cout << "You selected " << Game::ToString(selectedMove) << "\n";
-        std::cout << "Your opponent selected " << Game::ToString(opponentMove) << "\n";
+        std::cout << "You selected " << playerMove << "\n";
+        std::cout << "Your opponent selected " << aiMove << "\n";
 
-        auto [p1, p2] = Game::Play(selectedMove, opponentMove);
+        const auto [p1, p2] = Game::Play(playerMove, aiMove);
+        std::cout << "You " << p1 << "!\n\n";
 
-        std::cout << "You " << Game::ToString(p1) << "!\n\n";
+        //Game::Outcome outcome = Game::Play(playerMove, aiMove);
+        //std::cout << "The winner is: " << Game::Play(playerMove, aiMove);
+
+        //char* outString;
+        //StrUtil::Concat("You", std::string(Game::ToString(p1)).c_str(), &outString);
+        //std::cout << outString << "\n\n";
+        
+
+        //std::cout << StrUtil::Concat("You", std::string(Game::ToString(p1)).c_str());
+        //std::cout << "You " << Game::ToString(p1) << "!\n\n";
     }
 }

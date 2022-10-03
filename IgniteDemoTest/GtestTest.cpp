@@ -98,29 +98,29 @@ TEST(RPS, Lizard_AgainstSpock_LizardWins) {
     ASSERT_EQ(p2Win, Play(Move::Spock, Move::Lizard));
 }
 
-TEST(RPS, Unset_AgainstAnything_IsInvalid) {
-    static_assert(invalid == Play(Move::Unset, Move::Rock), "Unset against Rock is Invalid");
-    static_assert(invalid == Play(Move::Unset, Move::Paper), "Unset against Paper is Invalid");
-    static_assert(invalid == Play(Move::Unset, Move::Scissors), "Unset against Scissors is Invalid");
-    static_assert(invalid == Play(Move::Unset, Move::Lizard), "Unset against Lizard is Invalid");
-    static_assert(invalid == Play(Move::Unset, Move::Spock), "Unset against Spock is Invalid");
+TEST(RPS, EndGame_AgainstAnything_IsInvalid) {
+    static_assert(invalid == Play(Move::EndGame, Move::Rock), "Unset against Rock is Invalid");
+    static_assert(invalid == Play(Move::EndGame, Move::Paper), "Unset against Paper is Invalid");
+    static_assert(invalid == Play(Move::EndGame, Move::Scissors), "Unset against Scissors is Invalid");
+    static_assert(invalid == Play(Move::EndGame, Move::Lizard), "Unset against Lizard is Invalid");
+    static_assert(invalid == Play(Move::EndGame, Move::Spock), "Unset against Spock is Invalid");
 
-    static_assert(invalid == Play(Move::Rock, Move::Unset), "Rock against Unset is Invalid");
-    static_assert(invalid == Play(Move::Paper, Move::Unset), "Paper against Unset is Invalid");
-    static_assert(invalid == Play(Move::Scissors, Move::Unset), "Scissors against Unset is Invalid");
-    static_assert(invalid == Play(Move::Lizard, Move::Unset), "Lizard against Unset is Invalid");
-    static_assert(invalid == Play(Move::Spock, Move::Unset), "Spock against Unset is Invalid");
+    static_assert(invalid == Play(Move::Rock, Move::EndGame), "Rock against Unset is Invalid");
+    static_assert(invalid == Play(Move::Paper, Move::EndGame), "Paper against Unset is Invalid");
+    static_assert(invalid == Play(Move::Scissors, Move::EndGame), "Scissors against Unset is Invalid");
+    static_assert(invalid == Play(Move::Lizard, Move::EndGame), "Lizard against Unset is Invalid");
+    static_assert(invalid == Play(Move::Spock, Move::EndGame), "Spock against Unset is Invalid");
 
-    ASSERT_EQ(invalid, Play(Move::Unset, Move::Rock));
-    ASSERT_EQ(invalid, Play(Move::Unset, Move::Paper));
-    ASSERT_EQ(invalid, Play(Move::Unset, Move::Scissors));
-    ASSERT_EQ(invalid, Play(Move::Unset, Move::Lizard));
-    ASSERT_EQ(invalid, Play(Move::Unset, Move::Spock));
+    ASSERT_EQ(invalid, Play(Move::EndGame, Move::Rock));
+    ASSERT_EQ(invalid, Play(Move::EndGame, Move::Paper));
+    ASSERT_EQ(invalid, Play(Move::EndGame, Move::Scissors));
+    ASSERT_EQ(invalid, Play(Move::EndGame, Move::Lizard));
+    ASSERT_EQ(invalid, Play(Move::EndGame, Move::Spock));
 
-    ASSERT_EQ(invalid, Play(Move::Rock, Move::Unset));
-    ASSERT_EQ(invalid, Play(Move::Paper, Move::Unset));
-    ASSERT_EQ(invalid, Play(Move::Scissors, Move::Unset));
-    ASSERT_EQ(invalid, Play(Move::Lizard, Move::Unset));
-    ASSERT_EQ(invalid, Play(Move::Spock, Move::Unset));
+    ASSERT_EQ(invalid, Play(Move::Rock, Move::EndGame));
+    ASSERT_EQ(invalid, Play(Move::Paper, Move::EndGame));
+    ASSERT_EQ(invalid, Play(Move::Scissors, Move::EndGame));
+    ASSERT_EQ(invalid, Play(Move::Lizard, Move::EndGame));
+    ASSERT_EQ(invalid, Play(Move::Spock, Move::EndGame));
 }
 

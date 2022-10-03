@@ -3,11 +3,13 @@
 #include <utility>
 #include <string>
 #include <string_view>
+#include <iostream>
+
 using namespace std::string_view_literals;
 
 namespace Game {
     enum struct Outcome { Invalid, Win, Lose, Draw };
-    enum struct Move { Unset, Rock, Paper, Scissors, Lizard, Spock };
+    enum struct Move { EndGame, Rock, Paper, Scissors, Lizard, Spock };
 
     constexpr auto invalid = std::make_pair(Outcome::Invalid, Outcome::Invalid);
     constexpr auto draw = std::make_pair(Outcome::Draw, Outcome::Draw);
@@ -15,7 +17,7 @@ namespace Game {
     constexpr auto p2Win = std::make_pair(Outcome::Lose, Outcome::Win);
 
     constexpr std::pair<Outcome, Outcome> Play(Move p1Move, Move p2Move) {
-        if(p1Move == Move::Unset || p2Move == Move::Unset) {
+        if(p1Move == Move::EndGame || p2Move == Move::EndGame) {
             return invalid;
         }
         if(p1Move == p2Move) {
@@ -52,23 +54,43 @@ namespace Game {
         }
     }
 
-    constexpr std::string_view ToString(const Game::Move move) {
-        switch(move) {
-        case Move::Rock: return "Rock"sv;
-        case Move::Paper: return "Paper"sv;
-        case Move::Scissors: return "Scissors"sv;
-        case Move::Lizard: return "Lizard"sv;
-        case Move::Spock: return "Spock"sv;
-        default: return "Unset"sv;
-        }
+} // namespace Game
+
+namespace StrUtil {
+    void Concat(const char* lhs, const char* rhs, char** buffer);
+}
+
+
+inline std::ostream& operator<<(std::ostream& stream, const Game::Outcome& outcome) {
+    switch(outcome) {
+    case Game::Outcome::Win: stream << "Win"; break;
+    case Game::Outcome::Lose: stream << "Lose"; break;
+    case Game::Outcome::Draw: stream << "Draw"; break;
+    default: stream << "Invalid"; break;
     }
 
-    constexpr std::string_view ToString(const Outcome outcome) {
-        switch (outcome) {
-        case Outcome::Win: return "Win"sv;
-        case Outcome::Lose: return "Lose"sv;
-        case Outcome::Draw: return "Draw"sv;
-        default: return "Invalid"sv;
-        }
+    return stream;
+}
+
+inline std::ostream& operator<<(std::ostream& stream, const Game::Move& move) {
+    switch(move) {
+    case Game::Move::Rock: stream << "Rock"; break;
+    case Game::Move::Paper: stream << "Paper"; break;
+    case Game::Move::Scissors: stream << "Scissors"; break;
+    case Game::Move::Lizard: stream << "Lizard"; break;
+    case Game::Move::Spock: stream << "Spock"; break;
+    default: stream << "Unset"; break;
     }
-} // namespace Game
+
+    return stream;
+}
+
+/*
+std::string OutcomeToString(Outcome outcome) {
+    return "";
+}
+
+std::string MoveToString(Move move) {
+
+}
+*/
