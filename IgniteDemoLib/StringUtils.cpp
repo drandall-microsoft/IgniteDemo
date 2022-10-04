@@ -16,5 +16,6 @@ namespace StrUtil {
         for(int i = 0; i < strlen(rhs); ++index, ++i) {
             buf[index] = rhs[i];
         }
+        buf[index] = '\0';
     }
 } // namespace StrUtil
