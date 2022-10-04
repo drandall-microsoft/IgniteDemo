@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "AI.h"
 #include "Controller.h"
+#include "StringUtils.h"
 
 #include <iostream>
 
@@ -17,8 +18,6 @@ constexpr std::string_view Prompt = "Select One\n"
                                     "\tSpock(5)\n"
                                     "\tExit(0)\n"
                                     "\n";
-
- 
 
 
 int main() {
@@ -37,18 +36,12 @@ int main() {
         std::cout << "You selected " << playerMove << "\n";
         std::cout << "Your opponent selected " << aiMove << "\n";
 
-        const auto [p1, p2] = Game::Play(playerMove, aiMove);
-        std::cout << "You " << p1 << "!\n\n";
-
-        //Game::Outcome outcome = Game::Play(playerMove, aiMove);
-        //std::cout << "The winner is: " << Game::Play(playerMove, aiMove);
-
-        //char* outString;
-        //StrUtil::Concat("You", std::string(Game::ToString(p1)).c_str(), &outString);
-        //std::cout << outString << "\n\n";
-        
-
-        //std::cout << StrUtil::Concat("You", std::string(Game::ToString(p1)).c_str());
-        //std::cout << "You " << Game::ToString(p1) << "!\n\n";
+        Game::Outcome playerOutcome = Game::Play(playerMove, aiMove);
+        std::cout << "You " << playerOutcome << "!\n\n";
+        /*
+        char* outString;
+        StrUtil::Concat("Test", "One", &outString);
+        std::cout << outString;
+        */
     }
 }

@@ -1,5 +1,7 @@
 #include "pch.h"
-#include "Game.h"
+#include "StringUtils.h"
+
+#include <cstring>
 
 namespace StrUtil {
     void Concat(const char* lhs, const char* rhs, char** buffer) {
@@ -14,7 +16,5 @@ namespace StrUtil {
         for(int i = 0; i < strlen(rhs); ++index, ++i) {
             buf[index] = rhs[i];
         }
-
-        buf[index] = '\0';
     }
 } // namespace StrUtil

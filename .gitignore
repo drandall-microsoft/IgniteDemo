@@ -1,6 +1,7 @@
 #VS Folders
 .vs/*
 **/x64/*
+**/Debug/*
 packages/*
 
 # Prerequisites
