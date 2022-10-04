@@ -1,11 +1,7 @@
 #pragma once
 
-#include <utility>
-#include <string>
-#include <string_view>
 #include <iostream>
 
-using namespace std::string_view_literals;
 
 namespace Game {
     enum struct Outcome { Invalid, Win, Lose, Draw };
@@ -75,13 +71,3 @@ inline std::ostream& operator<<(std::ostream& stream, const Game::Move& move) {
 
     return stream;
 }
-
-/*
-std::string OutcomeToString(Outcome outcome) {
-    return "";
-}
-
-std::string MoveToString(Move move) {
-
-}
-*/
