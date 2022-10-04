@@ -1,6 +1,3 @@
-// IgniteDemoApp.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include "AI.h"
 #include "Controller.h"
 #include "Game.h"
