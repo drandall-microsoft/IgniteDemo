@@ -17,29 +17,6 @@ constexpr std::string_view Prompt = "Select One\n"
                                     "\tExit(0)\n"
                                     "\n";
 
-int main() {
-    std::cout << Prompt;
-
-    while(true) {
-        auto playerMove = GetPlayerMove();
-        auto aiMove = GetOpponentMove();
-
-        if(playerMove == Game::Move::EndGame) {
-            char* message;
-            StrUtil::Concat("The", "Game has Ended", &message);
-            std::cout << message;
-            return 0;
-        }
-
-        std::cout << playerMove << "\n";
-        std::cout << aiMove << "\n";
-
-        auto playerOutcome = Game::Play(playerMove, aiMove);
-
-        std::cout << "You " << playerOutcome << "!\n\n";
-    }
-}
-
 // int main() {
 //     std::cout << Prompt;
 //
